@@ -74,7 +74,8 @@ platform_do_upgrade() {
 	case "$(board_name)" in
 	linksys,mx2000|\
 	linksys,mx5500|\
-	linksys,spnmx56)
+	linksys,spnmx56|\
+	tplink,ex511-v2)
 		remove_oem_ubi_volume squashfs
 		linksys_mx_do_upgrade "$1"
 		;;
