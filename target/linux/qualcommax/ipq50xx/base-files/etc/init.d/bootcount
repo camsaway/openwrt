@@ -6,7 +6,8 @@ boot() {
 	case $(board_name) in
 	linksys,mx2000|\
 	linksys,mx5500|\
-	linksys,spnmx56)
+	linksys,spnmx56|\
+	tplink,ex511-v2)
 		mtd resetbc s_env || true
 	;;
 	esac
