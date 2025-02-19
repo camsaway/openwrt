@@ -11,7 +11,8 @@ case "$FIRMWARE" in
 	case "$board" in
 	linksys,mx2000|\
 	linksys,mx5500|\
-	linksys,spnmx56)
+	linksys,spnmx56|\
+	tplink,ex511-v2)
 		caldata_extract "0:ART" 0x1000 0x20000
 		label_mac=$(mtd_get_mac_ascii devinfo hw_mac_addr)
 		ath11k_patch_mac $(macaddr_add $label_mac 1) 0
@@ -22,7 +23,8 @@ case "$FIRMWARE" in
 	;;
 "ath11k/QCN6122/hw1.0/cal-ahb-b00a040.wifi1.bin")
 	case "$board" in
-	linksys,mx2000)
+	linksys,mx2000|\
+	tplink,ex511-v2)
 		caldata_extract "0:ART" 0x26800 0x20000
 		label_mac=$(mtd_get_mac_ascii devinfo hw_mac_addr)
 		ath11k_patch_mac $(macaddr_add $label_mac 2) 0
