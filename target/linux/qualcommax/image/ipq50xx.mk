@@ -39,3 +39,13 @@ define Device/linksys_spnmx56
 		ipq-wifi-linksys_spnmx56
 endef
 TARGET_DEVICES += linksys_spnmx56
+
+define Device/tplink_ex511-v2
+	$(call Device/linksys_ipq50xx_mx_base)
+	DEVICE_MODEL := EX511
+	DEVICE_DTS_CONFIG := config@mp03.1
+	DEVICE_PACKAGES := kmod-ath11k-pci \
+		ath11k-firmware-qcn9074 \
+		ipq-wifi-tplink_ex511-v2
+endef
+TARGET_DEVICES += tplink_ex511-v2
