@@ -10,6 +10,7 @@ board=$(board_name)
 case "$board" in
 linksys,mx2000|\
 linksys,mx5500|\
+tplink,ex511|\
 linksys,spnmx56)
 	idx="$(find_mtd_index u_env)"
 	[ -n "$idx" ] && \
