@@ -63,6 +63,7 @@ ALLWIFIBOARDS:= \
 	tplink_eap610-outdoor \
 	tplink_eap620hd-v1 \
 	tplink_eap660hd-v1 \
+	tplink_ex511-v2 \
 	wallys_dr40x9 \
 	xiaomi_ax3600 \
 	xiaomi_ax9000 \
