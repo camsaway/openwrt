@@ -1,8 +1,8 @@
 /dts-v1/;
 
 / {
-    compatible = "tp-link,ex511", "qcom,gcc-ipq5018";
-    model = "TP-Link EX511 Router (Qualcomm IPQ5018)";
+    compatible = "tplink,ex511-v2", "qcom,gcc-ipq5018";
+    model = "TP-Link EX511 Router v2 (Qualcomm IPQ5018)";
 
     aliases {
         ethernet0 = &eth0;
