@@ -1,1 +1,142 @@
-/* New file for the DTS
+/dts-v1/;
+
+/ {
+    compatible = "tp-link,ex511", "qcom,gcc-ipq5018";
+    model = "TP-Link EX511 Router (Qualcomm IPQ5018)";
+
+    aliases {
+        ethernet0 = &eth0;
+        ethernet1 = &eth1;
+        serial0   = &uart0;
+    };
+
+    chosen {
+        bootargs = "console=ttyS0,115200 root=/dev/mtdblock3";
+    };
+
+    memory {
+        device_type = "memory";
+        /* DRAM starting at 0x40000000 with 256 MiB size */
+        reg = <0x40000000 0x10000000>;
+    };
+
+    cpus {
+        #address-cells = <1>;
+        #size-cells = <0>;
+
+        cpu@0 {
+            device_type = "cpu";
+            compatible = "qcom,gcc-ipq5018";
+            reg = <0>;
+        };
+    };
+
+    soc {
+        #address-cells = <1>;
+        #size-cells = <1>;
+        compatible = "simple-bus";
+        ranges;
+
+        uart0: serial@8000000 {
+            compatible = "qcom,ipq5018-uart";
+            reg = <0x08000000 0x100>;
+            clock-frequency = <1843200>;
+            interrupts = <5 0 0>;  /* Example: GIC interrupt specifier */
+        };
+
+        eth0: ethernet@1e00000 {
+            compatible = "qcom,ipq5018-eth";
+            reg = <0x01e00000 0x1000>;
+            phy-mode = "rgmii";
+            interrupts = <1 0 0>;
+            local-mac-address = [00 11 22 33 44 55];
+        };
+
+        eth1: ethernet@1e01000 {
+            compatible = "qcom,ipq5018-eth";
+            reg = <0x01e01000 0x1000>;
+            phy-mode = "rgmii";
+            interrupts = <2 0 0>;
+            local-mac-address = [00 11 22 33 44 56];
+        };
+
+        /*
+         * NAND flash node:
+         * U-Boot shows a serial NAND flash of 128 MiB.
+         */
+        nand0: nand@1f00000 {
+            compatible = "qcom,ipq-nand";
+            reg = <0x01f00000 0x20000>;
+            nand-flash,chip-delay = <20>;
+            nand-flash,options = <0>;
+            partitions {
+                compatible = "fixed-partitions";
+                #address-cells = <1>;
+                #size-cells = <1>;
+
+                partition@0 {
+                    label = "uboot";
+                    reg = <0x00000000 0x00040000>; /* 256 KB */
+                };
+
+                partition@40000 {
+                    label = "uboot_env";
+                    reg = <0x00040000 0x00040000>; /* 256 KB */
+                };
+
+                partition@80000 {
+                    label = "kernel";
+                    reg = <0x00080000 0x00400000>; /* 4 MB */
+                };
+
+                partition@480000 {
+                    label = "rootfs";
+                    reg = <0x00480000 0x07B80000>; /* Remaining flash */
+                };
+            };
+        };
+
+        gpio: gpio@10000000 {
+            compatible = "qcom,ipq5018-gpio";
+            reg = <0x10000000 0x1000>;
+        };
+
+        /* RTL8367S switch node from U-Boot log */
+        switch: switch@1e02000 {
+            compatible = "realtek,rtl8367s";
+            reg = <0x01e02000 0x1000>;
+        };
+
+        intc: interrupt-controller@4a800000 {
+            compatible = "arm,gic-400";
+            reg = <0x4a800000 0x10000>;
+            #interrupt-cells = <3>;
+        };
+    };
+
+    leds {
+        compatible = "gpio-leds";
+
+        power_led {
+            label = "tp-link:green:power";
+            gpios = <&gpio 13 0>; /* Adjust GPIO number as needed */
+            default-state = "on";
+        };
+
+        status_led {
+            label = "tp-link:amber:status";
+            gpios = <&gpio 14 0>; /* Adjust GPIO number as needed */
+            default-state = "off";
+        };
+    };
+
+    buttons {
+        compatible = "gpio-keys";
+
+        reset {
+            label = "tp-link:reset";
+            gpios = <&gpio 15 0>; /* Adjust GPIO number as needed */
+            linux,code = <KEY_RESTART>;
+        };
+    };
+};
